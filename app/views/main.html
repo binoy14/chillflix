@@ -1,0 +1,110 @@
+<div class="header">
+  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> Chillflix</h3>
+</div>
+
+<div class="player-area" ng-if="fileToPlay">
+
+  <video id="my-video" class="video-js col-md-9" src="{{fileToPlay}}" controls preload="auto">
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
+
+  <div class="chat-container col-md-3">
+    <ul id="messages"></ul>
+    <form class="chat-form" action="" ng-submit="sendChat($event)">
+      <input id="chatInput" type="text" ng-model="chatInput" autocomplete="off"><button type="submit" class="btn btn-default" >></button>
+    </form>
+  </div>
+
+</div>
+  <div class="jumbotron col-md-5" ng-file-drop ng-file-change="upload($files)">
+    <h2>Search Kat.cr</h2>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon">Search:</span>
+        <input type="text" class="form-control" ng-model="searchQuery" ng-keypress="searchKC($event)">
+      </div>
+    </div>
+    <ul class="search-result" ng-repeat="result in searchResult">
+      <li ng-click="watchNow($event)" id="{{result.torrentLink}}"><a href="">{{result.title}}</a></li>
+    </ul>
+
+    <h5>Or</h5>
+
+    <h2>Stream Torrents</h2>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon">torrent:</span>
+        <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
+      </div>
+    </div>
+    <a class="btn btn-success" href="" ng-click="download()">
+      <span class="fa fa-cloud-download"></span> Download
+    </a>
+    <p class="text-right">
+      <i class="fa fa-upload"></i> Drop .torrent files here or
+      <span class="btn-link" ng-file-select ng-file-change="upload($files)">
+        browse to upload
+      </span>
+    </p>
+  </div>
+
+  <div class="row content col-md-6">
+    <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
+      <div class="panel-heading">
+        <button type="button" class="close" ng-click="remove(torrent)">&times;</button>
+        <span class="fa" ng-class="{
+          'fa-cloud-upload': torrent.ready && !torrent.interested,
+          'fa-refresh fa-spin': !torrent.ready,
+          'fa-exchange': torrent.interested }">
+        </span> {{ torrent.name || 'Fetching metadata...' }}
+      </div>
+      <div class="panel-body">
+        <div class="progress progress-striped" ng-class="{ active: torrent.interested }">
+          <div ng-class-even="'space'" ng-class-odd="'progress-bar progress-bar-success'" ng-repeat="progress in torrent.progress track by $index" ng-style="{ width: progress + '%' }"></div>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="file in torrent.files">
+            <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)" />
+            <span class="fa fa-cloud-download"></span>
+            <a ng-click="playFile(file.link)" target="_blank">
+              {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-footer">
+        <ul class="list-unstyled list-inline">
+          <li class="text-nowrap">
+            <button type="button" class="btn btn-xs" ng-click="pause(torrent)">
+              <span class="fa {{ torrent.stats.paused ? 'fa-play' : 'fa-pause' }}"></span>
+            </button>
+          </li>
+          <li class="text-nowrap" ng-show="torrent.stats">
+            <strong>Speed:</strong>
+            <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
+            <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s
+          </li>
+          <li class="text-nowrap" ng-show="torrent.stats">
+            <strong>Traffic:</strong>
+            <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
+            <span class="label label-danger">{{ torrent.stats.traffic.up / 1024 / 1024 | number:1 }}</span> MB
+          </li>
+          <li class="text-nowrap" ng-show="torrent.stats">
+            <strong>Peers:</strong>
+            <span class="label label-success">{{ torrent.stats.peers.unchocked | number }}</span> /
+            <span class="label label-default">{{ torrent.stats.peers.total | number }}</span>
+          </li>
+          <li class="text-nowrap" ng-show="torrent.stats">
+            <strong>Queue:</strong>
+            <span class="label label-primary">{{ torrent.stats.queue | number }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<div class="footer">
+  <p><span class="fa fa-heart"></span> Chillflix</p>
+</div>

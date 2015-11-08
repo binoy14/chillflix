@@ -1,0 +1,7 @@
+app
+.tmp
+.idea
+.bowerrc
+.editorconfig
+.gitattributes
+bower.json
