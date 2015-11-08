@@ -8,8 +8,11 @@ angular.module('peerflixServerApp')
     var ref = new Firebase("https://chillflix.firebaseio.com/");
     return {
       send : function(msg){
-        ref.push({message : msg});
-        $('#chatInput').val('');
+        if(msg){
+          ref.push({message : msg});
+          $('#chatInput').val('');
+          $('#messages').scrollTop($('#messages')[0].scrollHeight)
+        }
       },
       get : function(){
         ref.limitToLast(10).on('child_added', function(snap){
