@@ -4,19 +4,12 @@
 
 <div class="player-area" ng-if="fileToPlay">
 
-  <video id="my-video" class="video-js col-md-9" src="{{fileToPlay}}" controls preload="auto">
+  <video id="my-video" class="video-js col-md-12" src="{{fileToPlay}}" controls preload="auto">
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a web browser that
       <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   </video>
-
-  <div class="chat-container col-md-3">
-    <ul id="messages"></ul>
-    <form class="chat-form" action="" ng-submit="sendChat($event)">
-      <input id="chatInput" type="text" ng-model="chatInput" autocomplete="off"><button type="submit" class="btn btn-default" >></button>
-    </form>
-  </div>
 
 </div>
   <div class="jumbotron col-md-5" ng-file-drop ng-file-change="upload($files)">
