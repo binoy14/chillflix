@@ -7,7 +7,6 @@ angular
     'ngSanitize',
     'ngRoute',
     'btford.socket-io',
-    'firebase',
     'angularFileUpload'
   ])
   .config(function ($routeProvider) {

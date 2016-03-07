@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('peerflixServerApp')
-  .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket, chatSocket, $http) {
+  .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket, $http) {
     $http.defaults.useXDomain = true;
     var Torrent = $resource('/torrents/:infoHash');
     var Search = $resource('/search/:query');
@@ -37,9 +37,11 @@ angular.module('peerflixServerApp')
     load();
 
     $scope.playFile = function(link){
+      console.log(document.getElementById('my-video'));
       $scope.fileToPlay = window.location.origin + link;
-      chatSocket.get();
-    }
+      videojs(document.getElementById('my-video'), {}, function() {
+      });
+    };
 
     $scope.keypress = function (e) {
       if (e.which === 13) {
@@ -71,7 +73,6 @@ angular.module('peerflixServerApp')
 
     $scope.pause = function (torrent) {
       torrentSocket.emit(torrent.stats.paused ? 'resume' : 'pause', torrent.infoHash);
-      chatSocket.emit('message', 'hey');
     };
 
     $scope.select = function (torrent, file) {
@@ -94,14 +95,9 @@ angular.module('peerflixServerApp')
       $scope.download();
     };
 
-    $scope.sendChat = function(e){
-      e.preventDefault();
-      var chat = $('#chatInput').val();
-      chatSocket.send(chat);
-    };
-
     function callKCApi(q){
       Search.save({query : q}).$promise.then(function(result){
+        console.log(result);
         $scope.searchResult = result.list;
       });
     }

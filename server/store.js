@@ -22,6 +22,7 @@ function save() {
     var state = Object.keys(torrents).map(function (infoHash) {
       return infoHash;
     });
+    console.log(storageFile);
     fs.writeFile(storageFile, JSON.stringify(state), function (err) {
       if (err) {
         throw err;
