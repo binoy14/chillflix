@@ -14,5 +14,5 @@ var express = require('express'),
 
 var server = http.createServer(api);
 socket(server);
-server.listen(process.env.PORT || 42480);
-console.log("Server Listeing on port " + (process.env.PORT || 9000));
+server.listen(process.env.PORT || 9000);
+console.log('Server Listeing on port ' + (process.env.PORT || 9000));

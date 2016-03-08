@@ -86,6 +86,7 @@ angular.module('peerflixServerApp')
 
     $scope.searchKC = function(e){
       if(e.which === 13){
+        $scope.loading = true;
         callKCApi($scope.searchQuery);
       }
     };
@@ -97,7 +98,7 @@ angular.module('peerflixServerApp')
 
     function callKCApi(q){
       Search.save({query : q}).$promise.then(function(result){
-        console.log(result);
+        $scope.loading = false;
         $scope.searchResult = result.list;
       });
     }

@@ -24,6 +24,10 @@
       <li ng-click="watchNow($event)" id="{{result.torrentLink}}"><a href="">{{result.title}} | Seeds: {{result.seeds}} | Peers : {{result.peers}}</a></li>
     </ul>
 
+    <div class="loading-spinner" ng-show="loading">
+      <img src="images/rolling.svg">
+    </div>
+
     <h5>Or</h5>
 
     <h2>Stream Torrents</h2>
