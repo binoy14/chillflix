@@ -96,8 +96,8 @@ angular.module('peerflixServerApp')
     };
 
     $scope.openInVLC = function(link) {
-      window.location = "vlc://" + document.location.host + link;
-    }
+      window.location = 'vlc://' + document.location.host + link;
+    };
 
     function callKCApi(q){
       Search.save({query : q}).$promise.then(function(result){
