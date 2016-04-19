@@ -66,6 +66,7 @@
           <li class="list-group-item" ng-repeat="file in torrent.files">
             <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)" />
             <a class="fa fa-cloud-download" ng-href="{{file.link}}" download></a>
+            <a class="fa fa-file-video-o" ng-click="openInVLC(file.link)"></a>
             <a ng-click="playFile(file.link)" target="_blank">
               {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
             </a>

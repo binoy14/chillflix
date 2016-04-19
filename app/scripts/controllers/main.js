@@ -37,7 +37,6 @@ angular.module('peerflixServerApp')
     load();
 
     $scope.playFile = function(link){
-      console.log(document.getElementById('my-video'));
       $scope.fileToPlay = window.location.origin + link;
       videojs(document.getElementById('my-video'), {}, function() {
       });
@@ -95,6 +94,10 @@ angular.module('peerflixServerApp')
       $scope.link = e.currentTarget.id;
       $scope.download();
     };
+
+    $scope.openInVLC = function(link) {
+      window.location = "vlc://" + document.location.host + link;
+    }
 
     function callKCApi(q){
       Search.save({query : q}).$promise.then(function(result){
